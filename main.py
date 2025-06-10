@@ -7,10 +7,12 @@ import datetime
 
 from domainscanner.generators.trend_generator import generate_trend_domains
 from domainscanner.generators.dictionary_generator import generate_dictionary_domains
+from domainscanner.generators.news_generator import generate_news_based_domains
 from domainscanner.parsers.expired_domains_parser import get_expired_domains
 from domainscanner.analyzers.availability import check_single_domain
 from domainscanner.analyzers.metrics import filter_by_length, check_single_domain_history
 from domainscanner.analyzers.seo_analyzer import get_single_domain_seo
+from domainscanner.publishers.marketplace_lister import list_domain_on_marketplaces
 
 # Constants
 MAX_WORKERS = 10 # Reduced from 20 to be less aggressive
@@ -48,7 +50,9 @@ def process_new_domains():
     print(f"Generated {len(trend_domains)} domain candidates from trends.")
     dictionary_domains = generate_dictionary_domains()
     print(f"Generated {len(dictionary_domains)} domain candidates from the dictionary.")
-    generated_domains = list(set(trend_domains + dictionary_domains))
+    news_domains = generate_news_based_domains()
+    print(f"Generated {len(news_domains)} domain candidates from news headlines.")
+    generated_domains = list(set(trend_domains + dictionary_domains + news_domains))
     
     # 2. Analyze for availability (in parallel)
     availability_results = run_parallel(check_single_domain, generated_domains, "Checking Availability")
@@ -69,6 +73,7 @@ def process_new_domains():
         print(f"Found {len(sorted_domains)} domains that meet all criteria (available, short, clean history):")
         for domain in sorted_domains:
             print(f"  -> {domain}")
+            list_domain_on_marketplaces(domain)
         save_results('new_domains_found.txt', sorted_domains)
     else:
         print("No new domains found that meet all criteria.")
@@ -111,6 +116,7 @@ def process_expired_domains():
             line = f"{domain} (DA: {score})"
             print(f"  -> {line}")
             domains_to_save.append(line)
+            list_domain_on_marketplaces(domain)
         save_results('expired_domains_found.txt', domains_to_save)
     else:
         print("No high-value expired domains found that meet the criteria.")

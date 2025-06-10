@@ -8,6 +8,10 @@ NAMECHEAP_USER_NAME = ""
 MOZ_ACCESS_ID = ""
 MOZ_SECRET_KEY = ""
 
+# Marketplace API keys
+SEDO_API_KEY = ""
+DAN_API_KEY = ""
+
 # Analysis settings
 MAX_DOMAIN_LENGTH = 15 # The maximum number of characters for the domain name (excluding TLD)
 

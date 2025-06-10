@@ -13,15 +13,17 @@ This project is a bot designed to find and register valuable domain names. It au
 
 ```
 DomainScanner/
-├── src/
-│   ├── parsers/
-│   ├── generators/
+├── domainscanner/
 │   ├── analyzers/
+│   ├── generators/
+│   ├── parsers/
 │   ├── registrars/
 │   ├── utils/
-│   └── main.py
+│   └── config.py
 ├── data/
-├── config.py
+│   ├── dictionary.txt
+│   └── trend_words.txt
+├── main.py
 ├── requirements.txt
 └── README.md
 ``` 
