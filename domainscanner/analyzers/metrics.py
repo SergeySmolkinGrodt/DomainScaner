@@ -49,7 +49,7 @@ def check_single_domain_history(domain: str) -> Tuple[str, bool]:
                 
         except (requests.exceptions.RequestException, KeyError, ValueError):
             if i < retries - 1:
-                wait = 2**i # Exponential backoff: 1, 2 seconds
+                wait = (i + 1) * 2 # Exponential backoff: 2, 4 seconds
                 time.sleep(wait)
                 continue
             else:

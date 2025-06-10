@@ -15,7 +15,7 @@ from domainscanner.analyzers.seo_analyzer import get_single_domain_seo
 from domainscanner.publishers.marketplace_lister import list_domain_on_marketplaces
 
 # Constants
-MAX_WORKERS = 10 # Reduced from 20 to be less aggressive
+MAX_WORKERS = 5 # Reduced from 10 to be even less aggressive
 
 def run_parallel(func, items, description=""):
     """Helper function to run a function in parallel on a list of items."""

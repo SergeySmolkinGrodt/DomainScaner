@@ -21,9 +21,9 @@ def check_single_domain(domain: str) -> Tuple[str, bool]:
             # No WHOIS record often means available for gTLDs
             return domain, True # Available
         except Exception:
-            # Catch other exceptions, likely network-related
+            # Catch other exceptions, likely network-related (e.g., Connection Refused)
             if i < retries - 1:
-                wait = 2**i # Exponential backoff: 1, 2 seconds
+                wait = (i + 1) * 3 # Increased exponential backoff: 3, 6 seconds
                 time.sleep(wait)
                 continue
             else:
